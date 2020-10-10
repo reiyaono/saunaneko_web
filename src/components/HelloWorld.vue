@@ -9,20 +9,42 @@
           height="200"
         />
       </v-col>
-      <v-col>
-        わっしょい！わっしょい！
+      <v-col v-if="value > 0">
+        <v-progress-circular
+          :rotate="90"
+          :size="100"
+          :width="15"
+          :value="value"
+          indeterminate
+          color="loading"
+        >
+          <!-- {{ value }}% -->
+        </v-progress-circular>
       </v-col>
-      <v-col cols="12" class="mb-auto">
-        <v-btn
-          color="secondary"
-          elevation="2"
-        >Answer1aaaaaaaaaaaaaaaaaaaaaaaaaaaa</v-btn>
-      </v-col>
-      <v-col cols="12">
-        <v-btn
-          color="secondary"
-          elevation="2"
-        >Answer2aaaaaaaaaaaaaaaaas</v-btn>
+      <v-col v-else>
+        <v-col>
+          {{ questions[phase] }}
+        </v-col>
+        <v-col cols="12" class="mb-auto" @click="action">
+          <v-btn
+            color="secondary"
+            elevation="2"
+            large
+          >
+          <v-icon class="ma-3">mdi-thumb-up</v-icon>
+          はい
+          </v-btn>
+        </v-col>
+        <v-col cols="12" class="mb-auto" @click="action">
+          <v-btn
+            color="secondary"
+            elevation="2"
+            large
+          >
+          <v-icon class="ma-2">mdi-thumb-down</v-icon>
+          いいえ
+          </v-btn>
+        </v-col>
       </v-col>
 
       <!-- <v-col class="mb-4">
@@ -109,8 +131,10 @@
 <script>
   export default {
     name: 'HelloWorld',
-
     data: () => ({
+      phase: 0,
+      value: 0,
+      loading: false,
       ecosystem: [
         {
           text: 'vuetify-loader',
@@ -161,6 +185,31 @@
           href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
         },
       ],
+      questions: ['熱めのサウナが好き?',
+                  'せっかくなのでアウフグース(ロウリュ)を受けたい',
+                  'いくつかのねこ島を巡りたい?',
+                  '市街地から近いねこ島がいい',
+                  '観光もたくさんしたい',
+                  '美味しいものもいっぱい食べたい']
     }),
+    methods: {
+      action () {
+        const interval = setInterval(() => {
+          if (this.value >= 100) {
+            clearInterval(interval)
+            this.phase += 1
+            this.value = 0
+            console.log(this.questions.length)
+            console.log(this.phase)
+            if (this.phase === this.questions.length) this.toResult()
+          } else {
+            this.value += 1
+          }
+        }, 7) 
+      },
+      toResult () {
+        // this.$router.push({ name: 'Result' })
+      }
+    }
   }
 </script>
