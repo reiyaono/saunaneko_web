@@ -163,10 +163,10 @@
           } else {
             this.value += 1
           }
-        }, 7) 
+        }, 5) 
       },
       toResult () {
-        // this.$router.push({ name: 'Result' })
+        this.$router.push({ name: 'Result' })
       },
     },
     computed: {
