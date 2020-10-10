@@ -9,10 +9,10 @@ export default new Vuetify({
   theme: {
     themes: {
       light: {
-        primary: colors.teal.darken2, // #E53935
-        secondary: colors.teal.lighten2, // #FFCDD2
-        loading: colors.teal.darken1,
-        accent: colors.indigo.base, // #3F51B5
+        primary: colors.teal.darken2,
+        secondary: colors.teal.lighten2,
+        loading: colors.teal.lighten3,
+        accent: colors.indigo.base
       },
     },
   }

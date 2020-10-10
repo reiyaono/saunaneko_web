@@ -8,6 +8,14 @@
           contain
           height="200"
         />
+      <div class="px-4">
+        <v-progress-linear
+          color="light-green darken-1"
+          height="20"
+          v-model="progress"
+          striped
+          rounded />
+      </div>
       </v-col>
       <v-col v-if="value > 0">
         <v-progress-circular
@@ -18,7 +26,6 @@
           indeterminate
           color="loading"
         >
-          <!-- {{ value }}% -->
         </v-progress-circular>
       </v-col>
       <v-col v-else>
@@ -131,67 +138,20 @@
 <script>
   export default {
     name: 'HelloWorld',
-    data: () => ({
-      phase: 0,
-      value: 0,
-      loading: false,
-      ecosystem: [
-        {
-          text: 'vuetify-loader',
-          href: 'https://github.com/vuetifyjs/vuetify-loader',
-        },
-        {
-          text: 'github',
-          href: 'https://github.com/vuetifyjs/vuetify',
-        },
-        {
-          text: 'awesome-vuetify',
-          href: 'https://github.com/vuetifyjs/awesome-vuetify',
-        },
-      ],
-      importantLinks: [
-        {
-          text: 'Documentation',
-          href: 'https://vuetifyjs.com',
-        },
-        {
-          text: 'Chat',
-          href: 'https://community.vuetifyjs.com',
-        },
-        {
-          text: 'Made with Vuetify',
-          href: 'https://madewithvuejs.com/vuetify',
-        },
-        {
-          text: 'Twitter',
-          href: 'https://twitter.com/vuetifyjs',
-        },
-        {
-          text: 'Articles',
-          href: 'https://medium.com/vuetify',
-        },
-      ],
-      whatsNext: [
-        {
-          text: 'Explore components',
-          href: 'https://vuetifyjs.com/components/api-explorer',
-        },
-        {
-          text: 'Select a layout',
-          href: 'https://vuetifyjs.com/getting-started/pre-made-layouts',
-        },
-        {
-          text: 'Frequently Asked Questions',
-          href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
-        },
-      ],
-      questions: ['熱めのサウナが好き?',
-                  'せっかくなのでアウフグース(ロウリュ)を受けたい',
-                  'いくつかのねこ島を巡りたい?',
-                  '市街地から近いねこ島がいい',
-                  '観光もたくさんしたい',
-                  '美味しいものもいっぱい食べたい']
-    }),
+    data () {
+      return {
+        value: 0,
+        interval: 0,
+        phase: 0,
+        hoge: 0,
+        questions: ['熱めのサウナが好き?',
+                    'せっかくなのでアウフグース(ロウリュ)を受けたい',
+                    'いくつかのねこ島を巡りたい?',
+                    '市街地から近いねこ島がいい',
+                    '観光もたくさんしたい',
+                    '美味しいものもいっぱい食べたい']
+      }
+    },
     methods: {
       action () {
         const interval = setInterval(() => {
@@ -199,8 +159,6 @@
             clearInterval(interval)
             this.phase += 1
             this.value = 0
-            console.log(this.questions.length)
-            console.log(this.phase)
             if (this.phase === this.questions.length) this.toResult()
           } else {
             this.value += 1
@@ -209,6 +167,11 @@
       },
       toResult () {
         // this.$router.push({ name: 'Result' })
+      },
+    },
+    computed: {
+      progress () {
+        return (this.phase / this.questions.length) * 100
       }
     }
   }
