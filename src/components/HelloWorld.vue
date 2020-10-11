@@ -30,9 +30,9 @@
       </v-col>
       <v-col v-else>
         <v-col>
-          {{ questions[phase] }}
+          {{ questions[phase]['text'] }}
         </v-col>
-        <v-col cols="12" class="mb-auto" @click="action">
+        <v-col cols="12" class="mb-auto" @click="action(true)">
           <v-btn
             color="secondary"
             elevation="2"
@@ -42,7 +42,7 @@
           はい
           </v-btn>
         </v-col>
-        <v-col cols="12" class="mb-auto" @click="action">
+        <v-col cols="12" class="mb-auto" @click="action(false)">
           <v-btn
             color="secondary"
             elevation="2"
@@ -136,6 +136,7 @@
 </template>
 
 <script>
+  import { SET } from '@/vuex/mutation-types'
   export default {
     name: 'HelloWorld',
     data () {
@@ -144,16 +145,17 @@
         interval: 0,
         phase: 0,
         hoge: 0,
-        questions: ['熱めのサウナが好き?',
-                    'せっかくなのでアウフグース(ロウリュ)を受けたい',
-                    'いくつかのねこ島を巡りたい?',
-                    '市街地から近いねこ島がいい',
-                    '観光もたくさんしたい',
-                    '美味しいものもいっぱい食べたい']
+        questions: [{ key: 'hotter', text: '熱めのサウナが好き?' },
+                    { key: 'aufguss', text: 'せっかくなのでアウフグース(ロウリュ)を受けたい' },
+                    { key: 'islands', text: 'いくつかのねこ島を巡りたい?' },
+                    { key: 'near', text: '市街地から近いねこ島がいい' },
+                    { key: 'sightseeing', text: '観光もたくさんしたい' },
+                    { key: 'food', text: '美味しいものもいっぱい食べたい' }]
       }
     },
     methods: {
-      action () {
+      action (answer) {
+        this.$store.commit(SET, { path: ['answers', this.questions[this.phase]['key']], value: answer })
         const interval = setInterval(() => {
           if (this.value >= 100) {
             clearInterval(interval)
@@ -166,6 +168,7 @@
         }, 5) 
       },
       toResult () {
+        console.log(this.$store.state)
         this.$router.push({ name: 'Result' })
       },
     },
